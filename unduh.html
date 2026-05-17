@@ -50,7 +50,7 @@
     <br>
     <a id="downloadLink" href="#" class="btn-unduh">UNDUH FOTO</a>
 
-    <script>
+    <!-- <script>
         // Mengambil URL foto dari parameter link (URL)
         const urlParams = new URLSearchParams(window.location.search);
         const fotoUrl = urlParams.get('foto');
@@ -61,6 +61,45 @@
             document.getElementById('downloadLink').href = fotoUrl;
             // Menambahkan atribut download (hanya berfungsi jika satu domain, tapi membantu di beberapa browser)
             document.getElementById('downloadLink').setAttribute('download', 'JedaMakna_Photo.jpg');
+        }
+    </script> -->
+    <script>
+        // Mengambil URL foto dari parameter QR Code
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // Ingat! Hapus atau jadikan komentar baris 'coba.jpg' saat sudah online
+        // const fotoUrl = 'coba.jpg'; 
+        const fotoUrl = urlParams.get('foto'); 
+
+        const btnUnduh = document.getElementById('downloadLink');
+
+        if (fotoUrl) {
+            // Tampilkan gambar di layar
+            document.getElementById('preview').src = fotoUrl;
+            
+            // Ubah teks tombol sementara
+            btnUnduh.innerText = "MENYIAPKAN...";
+            btnUnduh.style.pointerEvents = "none"; // Matikan klik sebentar biar loading
+
+            // Trik Fetch Blob: Memaksa browser mendownload lintas server (Cloudinary)
+            fetch(fotoUrl)
+                .then(response => response.blob())
+                .then(blob => {
+                    const objectUrl = window.URL.createObjectURL(blob);
+                    btnUnduh.href = objectUrl;
+                    btnUnduh.setAttribute('download', `JedaMakna_${new Date().getTime()}.jpg`);
+                    
+                    // Kembalikan tombol seperti semula setelah siap
+                    btnUnduh.innerText = "UNDUH FOTO";
+                    btnUnduh.style.pointerEvents = "auto";
+                })
+                .catch(err => {
+                    // Kalau internet pengunjung sedang jelek, fallback (buka di tab baru)
+                    btnUnduh.href = fotoUrl;
+                    btnUnduh.target = "_blank";
+                    btnUnduh.innerText = "UNDUH FOTO";
+                    btnUnduh.style.pointerEvents = "auto";
+                });
         }
     </script>
 </body>
