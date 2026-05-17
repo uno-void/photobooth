@@ -53,8 +53,8 @@
     <script>
         // Mengambil URL foto dari parameter link (URL)
         const urlParams = new URLSearchParams(window.location.search);
-        // const fotoUrl = urlParams.get('foto');
-        const fotoUrl = 'coba.jpg';
+        const fotoUrl = urlParams.get('foto');
+        // const fotoUrl = 'coba.jpg';
 
         if (fotoUrl) {
             document.getElementById('preview').src = fotoUrl;
