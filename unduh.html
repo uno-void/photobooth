@@ -3,63 +3,193 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terima Kasih - Jeda Makna</title>
+    <title>Karyamu - Jeda Makna 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Segoe+UI:wght@400;600&display=swap" rel="stylesheet">
+    
     <style>
+        /* Tema Gelap (Navy) ala Pameran */
         body {
-            background-color: #0f0f0f;
-            color: white;
+            background-color: #0b132b; 
+            background-image: radial-gradient(circle, #1c2541 0%, #0b132b 100%);
+            color: #ffffff;
             font-family: 'Segoe UI', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             min-height: 100vh;
-            margin: 0;
-            text-align: center;
-            padding: 20px;
         }
-        h1 { letter-spacing: 5px; font-weight: 300; margin-bottom: 10px; }
-        p { color: #888; margin-bottom: 30px; font-size: 14px; }
-        #preview {
-            max-width: 90%;
-            max-height: 50vh;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+
+        .container {
+            max-width: 450px;
+            padding: 40px 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+            color: #f8f9fa;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            color: #8d99ae;
             margin-bottom: 30px;
+            font-style: italic;
         }
-        .btn-unduh {
-            background: white;
-            color: black;
-            padding: 15px 40px;
-            text-decoration: none;
-            border-radius: 50px;
+
+        /* Efek Bingkai Polaroid */
+        .frame-foto {
+            background: #ffffff;
+            padding: 10px 10px 45px 10px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            border-radius: 4px;
+            margin-bottom: 40px;
+            transform: rotate(-2deg);
+            transition: transform 0.4s ease;
+            width: 90%;
+            position: relative;
+        }
+
+        .frame-foto:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        img#fotoHasil {
+            width: 100%;
+            border-radius: 2px;
+            display: block;
+            background: #e0e0e0;
+            min-height: 250px;
+            object-fit: cover;
+        }
+
+        .pesan-polaroid {
+            position: absolute;
+            bottom: 12px;
+            left: 0;
+            width: 100%;
+            color: #1a1a1a;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.1rem;
             font-weight: bold;
-            letter-spacing: 2px;
-            transition: 0.3s;
+            margin: 0;
         }
-        .btn-unduh:hover { transform: scale(1.05); background: #ccc; }
+
+        /* Tombol Estetik */
+        .btn-unduh {
+            background-color: #3a506b;
+            color: white;
+            text-decoration: none;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            transition: all 0.3s;
+            border: 1px solid #5bc0be;
+            cursor: pointer;
+            margin-bottom: 15px;
+            width: 80%;
+            max-width: 300px;
+        }
+
+        .btn-unduh:active {
+            transform: scale(0.95);
+        }
+
+        .note {
+            font-size: 0.8rem;
+            color: #8d99ae;
+        }
+
+        footer {
+            padding: 20px;
+            font-size: 0.75rem;
+            color: #5c6b73;
+            width: 100%;
+            background: rgba(0,0,0,0.3);
+            margin-top: auto;
+            letter-spacing: 1px;
+        }
+
+        /* Loading Spinner */
+        #loadingText {
+            margin-top: 50px;
+            font-size: 1rem;
+            color: #8d99ae;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
 
-    <h1>TERIMA KASIH</h1>
-    <p>Telah mengabadikan maknamu di pameran Jeda Makna.</p>
-    
-    <img id="preview" src="" alt="Foto Kamu">
+    <div class="container">
+        <h1>Jeda Makna</h1>
+        <p class="subtitle">Setiap bayangan menceritakan cahaya yang berbeda.</p>
 
-    <br>
-    <a id="downloadLink" href="#" class="btn-unduh">UNDUH FOTO</a>
+        <p id="loadingText">Menyiapkan makna...</p>
+
+        <div class="frame-foto" id="areaFoto" style="display: none;">
+            <img id="fotoHasil" src="" alt="Hasil Foto Pameran">
+            <p class="pesan-polaroid">Terima Kasih</p>
+        </div>
+
+        <a id="btnUnduh" href="#" class="btn-unduh" style="display: none;">📥 SIMPAN KARYA</a>
+        <p class="note" id="noteTeks" style="display: none;">Jangan lupa post di IG Story!</p>
+    </div>
+
+    <footer>
+        &copy; 2026 Pameran Fotografi Jeda Makna
+    </footer>
 
     <script>
-        // Mengambil URL foto dari parameter link (URL)
+        // 1. Ambil URL foto dari parameter yang dikirim oleh QR Code
         const urlParams = new URLSearchParams(window.location.search);
-        const fotoUrl = urlParams.get('foto');
+        const linkFoto = urlParams.get('foto');
 
-        if (fotoUrl) {
-            document.getElementById('preview').src = fotoUrl;
-            document.getElementById('downloadLink').href = fotoUrl;
-            // Menambahkan atribut download (hanya berfungsi jika satu domain, tapi membantu di beberapa browser)
-            document.getElementById('downloadLink').setAttribute('download', 'JedaMakna_Photo.jpg');
+        const imgElemen = document.getElementById('fotoHasil');
+        const areaFoto = document.getElementById('areaFoto');
+        const btnUnduh = document.getElementById('btnUnduh');
+        const noteTeks = document.getElementById('noteTeks');
+        const loadingText = document.getElementById('loadingText');
+
+        if(linkFoto) {
+            // Tampilkan gambar ke layar
+            imgElemen.src = linkFoto;
+            
+            imgElemen.onload = function() {
+                loadingText.style.display = 'none';
+                areaFoto.style.display = 'block';
+                btnUnduh.style.display = 'inline-block';
+                noteTeks.style.display = 'block';
+            };
+
+            // 2. Skrip Canggih: Tarik gambar jadi Blob agar langsung masuk ke galeri HP
+            fetch(linkFoto)
+                .then(response => response.blob())
+                .then(blob => {
+                    const objectUrl = window.URL.createObjectURL(blob);
+                    btnUnduh.href = objectUrl;
+                    btnUnduh.download = `JedaMakna_${new Date().getTime()}.jpg`;
+                })
+                .catch(err => {
+                    // Kalau gagal fetch (misal koneksi lambat), jadikan tombol fallback biasa
+                    btnUnduh.href = linkFoto;
+                    btnUnduh.target = "_blank";
+                });
+        } else {
+            loadingText.innerText = "Maaf, foto tidak ditemukan atau link tidak valid.";
         }
     </script>
 </body>
