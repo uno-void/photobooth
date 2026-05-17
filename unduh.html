@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terima Kasih - Jeda Makna</title>
+    <style>
+        body {
+            background-color: #0f0f0f;
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 { letter-spacing: 5px; font-weight: 300; margin-bottom: 10px; }
+        p { color: #888; margin-bottom: 30px; font-size: 14px; }
+        #preview {
+            max-width: 90%;
+            max-height: 50vh;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 30px;
+        }
+        .btn-unduh {
+            background: white;
+            color: black;
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+        .btn-unduh:hover { transform: scale(1.05); background: #ccc; }
+    </style>
+</head>
+<body>
+
+    <h1>TERIMA KASIH</h1>
+    <p>Telah mengabadikan maknamu di pameran Jeda Makna.</p>
+    
+    <img id="preview" src="" alt="Foto Kamu">
+
+    <br>
+    <a id="downloadLink" href="#" class="btn-unduh">UNDUH FOTO</a>
+
+    <script>
+        // Mengambil URL foto dari parameter link (URL)
+        const urlParams = new URLSearchParams(window.location.search);
+        const fotoUrl = urlParams.get('foto');
+
+        if (fotoUrl) {
+            document.getElementById('preview').src = fotoUrl;
+            document.getElementById('downloadLink').href = fotoUrl;
+            // Menambahkan atribut download (hanya berfungsi jika satu domain, tapi membantu di beberapa browser)
+            document.getElementById('downloadLink').setAttribute('download', 'JedaMakna_Photo.jpg');
+        }
+    </script>
+</body>
+</html>
